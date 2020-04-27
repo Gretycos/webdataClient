@@ -215,6 +215,7 @@
 <style scoped>
     .container{
         margin-top: 25px;
+        margin-bottom: 25px;
     }
     .sort-banner{
         height: 24px;
