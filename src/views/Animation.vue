@@ -6,6 +6,9 @@
                 <span @click="changeMode(index)">{{item.title}}</span>
                 <i :class="item.order===1?'down':'down active'" @click="changeDown(index)"></i>
             </li>
+            <ul class="search-banner">
+                <el-input v-model="searchKey" placeholder="请输入搜索内容" size="mini" clearable @blur="search"></el-input>
+            </ul>
             <ul class="source-banner">
                 <span class="title">来源:</span>
                 <li :class="currentSource===index?'source-item on':'source-item'" v-for="(item,index) in source" @click="changeSource(index)">
@@ -84,9 +87,10 @@
             let params={
                 page:p.toString(),
                 code:code,
+                title:this.searchKey
             };
             findAnimes(params).then(res=>{
-                console.log(res.data)
+                // console.log(res.data)
                 this.AnimationList=res.data.content;
                 this.totalElements=res.data.totalElements;
                 this.loading=false
@@ -101,12 +105,13 @@
                     let code = ''+this.currentMode+this.currentSource+this.sortMode[index].order
                     let params={
                         page:this.currentPage.toString(),
-                        code:code
+                        code:code,
+                        title:this.searchKey
                     }
                     this.loading=true;
                     findAnimes(params).then(res=>{
                         if(Object.keys(res).length!==0){
-                            console.log(res.data)
+                            // console.log(res.data)
                             this.AnimationList=res.data.content;
                             this.totalElements=res.data.totalElements;
                             this.loading=false;
@@ -118,15 +123,15 @@
                 if(this.sortMode[index].order === 0){
                     this.currentPage=1;
                     this.sortMode[index].order = 1
-                    console.log('上'+this.sortMode[index].order);
                     let code = ''+this.currentMode+this.currentSource+this.sortMode[index].order
                     let params={
                         page:this.currentPage.toString(),
-                        code:code
+                        code:code,
+                        title:this.searchKey
                     }
                     this.loading=true;
                     findAnimes(params).then(res=>{
-                        console.log(res.data)
+                        // console.log(res.data)
                         this.AnimationList=res.data.content;
                         this.totalElements=res.data.totalElements;
                         this.loading=false;
@@ -140,11 +145,12 @@
                     let code = ''+this.currentMode+this.currentSource+this.sortMode[index].order
                     let params={
                         page:this.currentPage.toString(),
-                        code:code
+                        code:code,
+                        title:this.searchKey
                     }
                     this.loading=true;
                     findAnimes(params).then(res=>{
-                        console.log(res.data)
+                        // console.log(res.data)
                         this.AnimationList=res.data.content;
                         this.totalElements=res.data.totalElements;
                         this.loading=false;
@@ -158,11 +164,12 @@
                     let code = ''+this.currentMode+this.currentSource+this.sortMode[this.currentMode].order
                     let params={
                         page:this.currentPage.toString(),
-                        code:code
+                        code:code,
+                        title:this.searchKey
                     }
                     this.loading=true;
                     findAnimes(params).then(res=>{
-                        console.log(res.data)
+                        // console.log(res.data)
                         this.AnimationList=res.data.content;
                         this.totalElements=res.data.totalElements;
                         this.loading=false;
@@ -174,18 +181,33 @@
                 let code = ''+this.currentMode+this.currentSource+this.sortMode[this.currentMode].order
                 let params={
                     page:this.currentPage.toString(),
-                    code:code
+                    code:code,
+                    title:this.searchKey
                 }
                 this.loading=true;
                 findAnimes(params).then(res=>{
-                    console.log(res.data)
+                    // console.log(res.data)
                     this.AnimationList=res.data.content;
                     this.totalElements=res.data.totalElements;
                     window.scrollTo(0,0);
                     this.loading=false;
                 });
             },
-
+            search(){
+                let code = ''+this.currentMode+this.currentSource+this.sortMode[this.currentMode].order
+                let params={
+                    page:this.currentPage.toString(),
+                    code:code,
+                    title:this.searchKey
+                }
+                this.loading=true;
+                findAnimes(params).then(res=>{
+                    // console.log(res.data)
+                    this.AnimationList=res.data.content;
+                    this.totalElements=res.data.totalElements;
+                    this.loading=false;
+                });
+            }
         }
     }
 </script>
@@ -197,7 +219,7 @@
     .sort-banner{
         height: 24px;
         font-size: 14px;
-        line-height: 1;
+        line-height: 2;
         position: relative;
     }
     .source-banner{
@@ -211,6 +233,11 @@
         margin-right: 20px;
         float: left;
         color: #222;
+    }
+    .search-banner{
+        position: absolute;
+        right: 40%;
+        margin:auto;
     }
     ul{
         list-style: none;
@@ -235,13 +262,13 @@
         height: 0;
     }
     i.up{
-        top: 0;
+        top: 6px;
         border: 5px dashed rgba(0,0,0,0);
         border-top: none;
         border-bottom: 5px solid #ddd;
     }
     i.down{
-        bottom: 0;
+        bottom: 6px;
         border: 5px dashed rgba(0,0,0,0);
         border-bottom: none;
         border-top: 5px solid #ddd;
