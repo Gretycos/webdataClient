@@ -6,7 +6,7 @@ export default {
         },
         {
             title: '电影',
-            href: '/animation',
+            href: '/movie',
         },
         {
             title: '科技',

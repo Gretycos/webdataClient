@@ -18,7 +18,11 @@ export const findAnimes = params =>{
     return  axios.post(baseUrl+"/animes", Qs.stringify(params)).then(res=>res.data);
 }
 
-export const logout = () =>{
-    return axios.post(baseUrl+"/logout",{}).then(res=>res.data)
+export const findMovies = params =>{
+    return  axios.post(baseUrl+"/movies", Qs.stringify(params)).then(res=>res.data);
 }
+
+// export const logout = () =>{
+//     return axios.post(baseUrl+"/logout",{}).then(res=>res.data)
+// }
 
